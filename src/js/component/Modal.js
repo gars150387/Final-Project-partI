@@ -24,7 +24,7 @@ export const Modal = props => {
 						<h5 className="modal-title">Are you sure?</h5>
 						{props.onClose ? (
 							<button
-								onClick={() => props.onClose()}
+								onClick={() => props.onClose({ showModal: true })}
 								type="button"
 								className="close"
 								data-dismiss="modal"
@@ -43,16 +43,21 @@ export const Modal = props => {
 							type="button"
 							className="btn btn-primary"
 							data-dismiss="modal"
-							onClick={() => props.onClose()}>
+							onClick={() => props.onClose({ showModal: true })}>
 							Oh no!
 						</button>
-						<button
-							type="button"
-							className="btn btn-secondary"
-							// key={index}
-							onClick={() => actions.deleteContact(props.id)}>
-							Do it!
-						</button>
+						<Link to="/">
+							<button
+								type="button"
+								className="btn btn-secondary"
+								// key={index}
+								onClick={() => {
+									actions.deleteContact(props.id);
+									props.onClose({ showModal: true });
+								}}>
+								Do it!
+							</button>
+						</Link>
 					</div>
 				</div>
 			</div>
