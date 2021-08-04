@@ -9,24 +9,29 @@ export const Dashboard = () => {
 	const history = useHistory();
 	return (
 		<>
-			<button
-				className="col-3 bg-success"
-				onClick={() => {
-					history.push("/contacts");
-				}}>
-				Profile
-			</button>
-			<i className="far fa-plus-square far-7x" onClick={() => history.push("/newEvent")} />
+			<div className="row d-inline">
+				<button className="col-md-4 ml-auto bg-success">
+					<i className="far fa-plus-square far-9x" onClick={() => history.push("/newEvent")} />
+					Create Event
+				</button>
+				<button
+					className="col-md-4 ml-auto bg-secondary"
+					onClick={() => {
+						history.push("/contacts");
+					}}>
+					Profile
+				</button>
+				<button
+					className="col-3 bg-danger"
+					onClick={() => {
+						signOut();
+						history.push("/");
+					}}>
+					LogOut
+				</button>
+			</div>
 			<Calendar style={{ width: "250px" }} />
 			<div />{" "}
-			<button
-				className="col-3 bg-danger"
-				onClick={() => {
-					signOut();
-					history.push("/");
-				}}>
-				LogOut
-			</button>
 		</>
 	);
 };
