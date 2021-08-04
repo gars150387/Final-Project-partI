@@ -59,7 +59,7 @@ export const EditContact = props => {
 							onChange={e => setAddress(e.target.value)}
 						/>
 					</div>
-					<Link className="mt-3 w-100 text-center" to="/">
+					<Link className="mt-3 w-100 text-center" to="/contacts">
 						<button
 							type="button"
 							className="btn btn-primary form-control"
