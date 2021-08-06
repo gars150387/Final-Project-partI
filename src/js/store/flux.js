@@ -5,80 +5,27 @@ const getState = ({ getStore, setStore, getActiosn }) => {
 			contacts: []
 		},
 		actions: {
-			loadContact() {
-				fetch(url + "agenda/gars_1503")
-					.then(response => response.json())
-					.then(result => {
-						console.log("Get Contact", result),
-							setStore({
-								contacts: result
-							});
-					})
-					.catch(e => console.error(e));
-			},
-			addContact(name, phone, email, address) {
-				fetch(url, {
-					method: "POST",
-					headers: { "Content-type": "application/json" },
-					body: JSON.stringify({
-						full_name: name,
-						phone: phone,
-						email: email,
-						address: address,
-						agenda_slug: "gars_1503"
-					})
-				}).then(() => {
-					fetch(url + "agenda/gars_1503")
-						.then(response => response.json())
-						.then(result => {
-							console.log("result", result),
-								setStore({
-									contacts: result
-								});
-						})
-						.catch(e => console.error(e));
+			getContactFromFB: async ()=>{
+				try{
+					const getContacts = firebase.firebase().collection("contacts");
+					const response = await getContacts.get();
+
+					response.forEach(contact => {
+						getStore({
+						contacsFB: [...getStore().contactsFB, {...contact.data(), id: contact.id}]
+					});
 				});
-			},
-			editContact(id, name, phone, email, address) {
-				fetch(url + id, {
-					method: "put",
-					headers: { "Content-type": "application/json" },
-					body: JSON.stringify({
-						full_name: name,
-						phone: phone,
-						address: address,
-						email: email,
-						agenda_slug: "gars_1503"
-					})
-				}).then(() => {
-					fetch(url + "agenda/gars_1503")
-						.then(response => response.json())
-						.then(result => {
-							console.log("result", result),
-								setStore({
-									contacts: result
-								});
-						})
-						.catch(e => console.error(e));
-				});
-			},
-			deleteContact(id) {
-				fetch(url + id, {
-					method: "delete"
-				}).then(() => {
-					fetch(url + "agenda/gars_1503")
-						.then(response => response.json())
-						.then(result => {
-							console.log("result", result),
-								setStore({
-									contacts: result
-								});
-						})
-						.catch(e => console.error(e));
-				});
+				console.log("data from Firebase", getStore().contactsFB);
+			}catch (e) {
+				console.log(e);
 			}
+		},
+		addContactFB: (name,phone,email,address)=>{
+			firebase.firebase().collection("contacts")
+		},
+		addContact: (nmae,phone,email,address){
+			
 		}
-	};
-};
+		};
 
 export default getState;
